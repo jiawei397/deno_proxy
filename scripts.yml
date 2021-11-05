@@ -1,0 +1,12 @@
+version: 0.0.0
+name: deno_proxy
+scripts:
+  dev:
+    cmd: deno run mod.ts
+    desc: run my main.ts file
+    allow:
+      - net
+      - env
+      - write
+      - read
+    unstable: true
