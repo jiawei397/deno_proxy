@@ -1,5 +1,6 @@
 {
     "deno.suggest.imports.hosts": {
-        "https://deno.land": false
+        "https://deno.land": false,
+        "http://localhost:8080": false
     }
 }
