@@ -21,7 +21,7 @@ You should use `import_map.json` like this:
 Then you can run your server:
 
 ```
-deno run --import-map ./import_map.json example.ts
+deno run -A --import-map ./example/import_map.json ./example/mod.ts
 ```
 
 See [here](https://deno.land/manual@v1.15.3/npm_nodejs/import_maps) for more
