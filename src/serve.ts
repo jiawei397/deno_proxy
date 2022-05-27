@@ -7,9 +7,11 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     console.debug(`start fetch ${url}`);
   }
   let cacheDir = config.cacheDenoDir;
+  let isDeno = true;
   const userAgent = req.headers.get("User-Agent");
   if (!userAgent || !userAgent.startsWith("Deno")) {
     cacheDir = config.cacheBrowserDir;
+    isDeno = false;
   }
   if (cacheDir.endsWith("/")) {
     cacheDir = cacheDir.substring(0, cacheDir.length - 1);
@@ -29,7 +31,9 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
       if (config.debug) {
         console.debug(`${url} loaded from local file`);
       }
-      const contentType = await readTextFile(filePath + "_type");
+      const contentType = isDeno
+        ? null
+        : await readTextFile(filePath + "_type");
       return {
         contentType,
         status: 200,
@@ -51,11 +55,13 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     arr.pop();
     await mkdir(arr.join("/"));
     await Deno.writeFile(filePath, new Uint8Array(data));
-    if (contentType && contentType !== "text/plain") {
-      await Deno.writeTextFile(
-        filePath + "_type",
-        contentType,
-      );
+    if (!isDeno && contentType && contentType !== "text/plain") {
+      if (ExtMapping[ext]) {
+        await Deno.writeTextFile(
+          filePath + "_type",
+          contentType,
+        );
+      }
     }
   }
   return {
