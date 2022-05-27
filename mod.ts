@@ -17,8 +17,8 @@ async function readTextFile(path: string) {
 async function mkdir(path: string) {
   try {
     await Deno.mkdir(path, { recursive: true });
-  } catch (e) {
-    console.error(e);
+  } catch {
+    // console.error(e);
   }
 }
 
@@ -80,17 +80,6 @@ async function serveHttp(conn: Deno.Conn) {
       );
     }
     const realUrl = first + "://" + tempArr.join("/");
-    // const userAgent = req.headers.get("User-Agent");
-    // if (!userAgent || !userAgent.startsWith("Deno")) {
-    //   return requestEvent.respondWith(
-    //     new Response(null, {
-    //       status: 301,
-    //       headers: new Headers({
-    //         location: realUrl,
-    //       }),
-    //     }),
-    //   );
-    // }
     try {
       const body = await fetchFromRemote(realUrl, req);
       requestEvent.respondWith(
@@ -102,7 +91,7 @@ async function serveHttp(conn: Deno.Conn) {
     } catch (e) {
       requestEvent.respondWith(
         new Response(e.message, {
-          status: 500,
+          status: e.status || 500,
         }),
       );
     }
