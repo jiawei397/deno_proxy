@@ -21,3 +21,10 @@ scripts:
     unstable: true  
     importMap: example/import_map_proxy.json
     watch: false
+  cache: 
+    cmd: deno cache  example/mod.ts
+    watch: false
+    unstable: true
+    importMap: example/import_map_proxy.json
+    env: 
+      DENO_DIR: deno-dir
