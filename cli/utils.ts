@@ -1,6 +1,9 @@
 import { CliConfig } from "./type.ts";
 
 export function transUrl(originUrl: string, baseUrl: string) {
+  if (!/^https?/.test(originUrl)) {
+    return originUrl;
+  }
   const last = originUrl.replace(/:\/\//, "/");
   return `${baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"}${last}`;
 }
