@@ -11,14 +11,18 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
   if (!userAgent || !userAgent.startsWith("Deno")) {
     cacheDir = config.cacheBrowserDir;
   }
-  let filePath = cacheDir + "/" + url.replace(/:\/\//, "/");
+  if (cacheDir.endsWith("/")) {
+    cacheDir = cacheDir.substring(0, cacheDir.length - 1);
+  }
+  const isHasVersion = hasVersion(url);
+  let filePath = cacheDir + (isHasVersion ? "/" : "/noversion/") +
+    url.replace(/:\/\//, "/");
   // console.log(filePath, hasVersion(url));
   const ext = extname(filePath);
   if (!ext || !ExtMapping[ext]) { // 没有后缀，或者后缀不在映射表中，表示很可能是个目录，这时需要拼接一下，不然它会造成创建目录失败
     // console.log(ExtMapping[ext]);
     filePath += "-index.html";
   }
-  const isHasVersion = hasVersion(url);
   if (isHasVersion || config.isCacheNoVersion) {
     const text = await readTextFile(filePath);
     if (text !== null) {
@@ -28,6 +32,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
       const contentType = await readTextFile(filePath + "_type");
       return {
         contentType,
+        status: 200,
         data: text,
       };
     }
@@ -41,12 +46,12 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     console.debug(`${url} loaded from remote file ok`);
   }
   const contentType = res.headers.get("content-type");
-  if (isHasVersion || config.isCacheNoVersion) {
+  if (res.ok && (isHasVersion || config.isCacheNoVersion)) {
     const arr = filePath.split("/");
     arr.pop();
     await mkdir(arr.join("/"));
     await Deno.writeFile(filePath, new Uint8Array(data));
-    if (contentType) {
+    if (contentType && contentType !== "text/plain") {
       await Deno.writeTextFile(
         filePath + "_type",
         contentType,
@@ -56,6 +61,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
   return {
     contentType,
     data,
+    status: res.status,
   };
 }
 
@@ -87,14 +93,18 @@ export async function serveHttp(conn: Deno.Conn, config: Config) {
     }
     const realUrl = first + "://" + tempArr.join("/");
     try {
-      const { contentType, data } = await fetchFromRemote(realUrl, req, config);
+      const { contentType, data, status } = await fetchFromRemote(
+        realUrl,
+        req,
+        config,
+      );
       const resHeaders = new Headers();
       if (contentType) {
         resHeaders.set("content-type", contentType);
       }
       requestEvent.respondWith(
         new Response(data, {
-          status: 200,
+          status: status,
           headers: resHeaders,
         }),
       );
