@@ -2,7 +2,7 @@ version: 0.0.0
 name: deno_proxy
 scripts:
   serve:
-    cmd: deno run mod.ts
+    cmd: deno run mod.ts --debug --isCacheNoVersion
     desc: run my main.ts file
     allow:
       - net
@@ -10,6 +10,7 @@ scripts:
       - write
       - read
     unstable: true
+    watch: false
   dev:
     cmd: deno run example/mod.ts
     allow:
@@ -19,3 +20,4 @@ scripts:
       - read
     unstable: true  
     importMap: example/import_map.json
+    watch: false
