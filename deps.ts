@@ -21,3 +21,13 @@ export {
 } from "https://deno.land/std@0.140.0/fmt/colors.ts";
 
 export { parse } from "https://deno.land/std@0.140.0/flags/mod.ts";
+
+export {
+  getLogger,
+  initLog,
+} from "https://deno.land/x/date_file_log@v0.2.5/mod.ts";
+export type {
+  DateFileLogConfig,
+  LogAppender,
+} from "https://deno.land/x/date_file_log@v0.2.5/mod.ts";
+export type { LevelName } from "https://deno.land/x/date_file_log@v0.2.5/deps.ts";

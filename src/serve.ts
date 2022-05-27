@@ -1,11 +1,10 @@
 import { ExtMapping, extname } from "../deps.ts";
+import { logger } from "./logger.ts";
 import { Config } from "./types.ts";
 import { hasVersion, mkdir, readTextFile } from "./utils.ts";
 
 async function fetchFromRemote(url: string, req: Request, config: Config) {
-  if (config.debug) {
-    console.debug(`start fetch ${url}`);
-  }
+  logger.debug(`start fetch ${url}`);
   let cacheDir = config.cacheDenoDir;
   let isDeno = true;
   const userAgent = req.headers.get("User-Agent");
@@ -28,9 +27,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
   if (isHasVersion || config.isCacheNoVersion) {
     const text = await readTextFile(filePath);
     if (text !== null) {
-      if (config.debug) {
-        console.debug(`${url} loaded from local file`);
-      }
+      logger.debug(`${url} loaded from local file`);
       const contentType = isDeno
         ? null
         : await readTextFile(filePath + "_type");
@@ -46,9 +43,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     headers,
   });
   const data = await res.arrayBuffer();
-  if (config.debug) {
-    console.debug(`${url} loaded from remote file ok`);
-  }
+  logger.debug(`${url} loaded from remote file ok`);
   const contentType = res.headers.get("content-type");
   if (res.ok && (isHasVersion || config.isCacheNoVersion)) {
     const arr = filePath.split("/");
@@ -84,7 +79,7 @@ export async function serveHttp(conn: Deno.Conn, config: Config) {
       continue;
     }
     const url = req.url;
-    console.info(`${req.method} ${url}`);
+    logger.info(`${req.method} ${url}`);
     const urlMap = new URL(url);
     const tempArr = urlMap.pathname.split("/").filter(Boolean);
     const first = tempArr.shift()!;
@@ -121,7 +116,7 @@ export async function serveHttp(conn: Deno.Conn, config: Config) {
         }),
       );
     } catch (e) {
-      console.error(`fetch ${url} error`, e);
+      logger.error(`fetch ${url} error`, e.message);
       requestEvent.respondWith(
         new Response(e.message, {
           status: e.status || 500,
