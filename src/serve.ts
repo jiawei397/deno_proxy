@@ -69,6 +69,14 @@ export async function serveHttp(conn: Deno.Conn, config: Config) {
   const httpConn = Deno.serveHttp(conn);
   for await (const requestEvent of httpConn) {
     const req = requestEvent.request;
+    if (req.method !== "GET") {
+      requestEvent.respondWith(
+        new Response("not allowed", {
+          status: 400,
+        }),
+      );
+      continue;
+    }
     const url = req.url;
     console.info(`${req.method} ${url}`);
     const urlMap = new URL(url);
@@ -81,9 +89,7 @@ export async function serveHttp(conn: Deno.Conn, config: Config) {
       continue;
     }
     if (!/^http[s]$/.test(first)) {
-      if (config.debug) {
-        console.debug(`first ${first} not start with http[s]`);
-      }
+      //   console.debug(`first ${first} not start with http[s]`);
       requestEvent.respondWith(
         new Response("Wrong agreement", {
           status: 404,
