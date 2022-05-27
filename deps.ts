@@ -18,6 +18,6 @@ export {
   rgb24,
   rgb8,
   yellow,
-} from "https://deno.land/std@0.97.0/fmt/colors.ts";
+} from "https://deno.land/std@0.140.0/fmt/colors.ts";
 
-export { parse } from "https://deno.land/std@0.97.0/flags/mod.ts";
+export { parse } from "https://deno.land/std@0.140.0/flags/mod.ts";

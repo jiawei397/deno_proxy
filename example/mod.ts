@@ -1,3 +1,3 @@
-import { VERSION } from "http://localhost:8080/https/deno.land/std@0.140.0/version.ts";
+import { VERSION } from "std/version.ts";
 
 console.log(VERSION);

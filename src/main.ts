@@ -5,7 +5,7 @@ import { Config } from "./types.ts";
 function parseConfig() {
   const config = parse(Deno.args) as unknown as Config;
   if (!config.port) {
-    config.port = Deno.env.get("PORT") || "8080";
+    config.port = Deno.env.get("PORT") || "80";
   }
   if (!config.cacheBrowserDir) {
     config.cacheBrowserDir = Deno.env.get("CACHE_DIR_BROWSER") || "cache/1";
