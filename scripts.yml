@@ -19,5 +19,5 @@ scripts:
       - write
       - read
     unstable: true  
-    importMap: example/import_map.json
+    importMap: example/import_map_proxy.json
     watch: false
