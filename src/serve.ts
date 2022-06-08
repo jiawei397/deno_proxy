@@ -1,4 +1,6 @@
+import { replaceImportText } from "../cli/utils.ts";
 import { ExtMapping, extname } from "../deps.ts";
+import { baseUrl } from "./globals.ts";
 import { Config } from "./types.ts";
 import { hasVersion, mkdir, readTextFile } from "./utils.ts";
 
@@ -45,16 +47,30 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
   const res = await fetch(url, {
     headers,
   });
-  const data = await res.arrayBuffer();
+  const contentType = res.headers.get("content-type");
+  let data;
+  if (
+    ["application/javascript", "application/typescript"].some((str) =>
+      contentType?.includes(str)
+    )
+  ) {
+    data = await res.text();
+    data = replaceImportText(data, baseUrl);
+  } else {
+    data = await res.arrayBuffer();
+  }
   if (config.debug) {
     console.debug(`${url} loaded from remote file ok`);
   }
-  const contentType = res.headers.get("content-type");
   if (res.ok && (isHasVersion || config.isCacheNoVersion)) {
     const arr = filePath.split("/");
     arr.pop();
     await mkdir(arr.join("/"));
-    await Deno.writeFile(filePath, new Uint8Array(data));
+    if (typeof data === "string") {
+      await Deno.writeTextFile(filePath, data);
+    } else {
+      await Deno.writeFile(filePath, new Uint8Array(data));
+    }
     if (!isDeno && contentType && contentType !== "text/plain") {
       if (ExtMapping[ext]) {
         await Deno.writeTextFile(

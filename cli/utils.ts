@@ -8,6 +8,17 @@ export function transUrl(originUrl: string, baseUrl: string) {
   return `${baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"}${last}`;
 }
 
+export function replaceImportText(originText: string, baseUrl: string) {
+  const reg = /[import|export]+\s.*["']+(http[s]?:\/\/[\w\.-]+)\//g;
+  return originText.replaceAll(reg, (match, str) => {
+    if (str.includes("cdn.skypack.dev")) {
+      return match;
+    }
+    const transed = transUrl(str, baseUrl);
+    return match.replace(str, transed);
+  });
+}
+
 /**
    * 重写import_map.json
    * @example

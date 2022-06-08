@@ -3,7 +3,6 @@ export {
   ExtMapping,
   MimeMapping,
 } from "https://deno.land/x/common_mime_types@0.1.1/mod.ts";
-
 export { extname } from "https://deno.land/std@0.140.0/path/mod.ts";
 
 export {

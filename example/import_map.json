@@ -1,5 +1,6 @@
 {
   "imports": {
-    "/std/": "https://deno.land/std@0.140.0/"
+    "/std/": "https://deno.land/std@0.140.0/",
+    "dayjs": "https://esm.sh/dayjs@1.11.3"
   }
 }

@@ -37,7 +37,7 @@ If your `import_map.json` like this:
 Then generate your proxy `import_map.json` by the above:
 
 ```
-deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v0.0.2/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/import_map.json --newPath example/import_map_proxy.json
+deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v0.0.3/cli/mod.ts --baseUrl http://localhost --oldPath example/import_map.json --newPath example/import_map_proxy.json
 ```
 
 The `import_map_proxy.json` should be this:
