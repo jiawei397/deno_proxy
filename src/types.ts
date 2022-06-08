@@ -1,6 +1,7 @@
 import { LevelName, LogAppender } from "../deps.ts";
 
 export interface Config {
+  baseUrl: string; // http://localhost
   port: string;
   cacheBrowserDir: string;
   cacheDenoDir: string;

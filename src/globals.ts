@@ -1,4 +1,3 @@
-export const baseUrl = "http://localhost";
 import { parse } from "../deps.ts";
 import { Config } from "./types.ts";
 
@@ -6,6 +5,10 @@ function parseConfig() {
   const config = parse(Deno.args) as unknown as Config;
   if (!config.port) {
     config.port = Deno.env.get("PORT") || "80";
+  }
+  if (!config.baseUrl) {
+    config.baseUrl = Deno.env.get("BASE_URL") ||
+      `http://localhost/${config.port}`;
   }
   if (!config.cacheBrowserDir) {
     config.cacheBrowserDir = Deno.env.get("CACHE_DIR_BROWSER") || "cache/1";

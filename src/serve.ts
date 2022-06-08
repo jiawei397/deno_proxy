@@ -1,6 +1,5 @@
 import { replaceImportText } from "../cli/utils.ts";
 import { ExtMapping, extname } from "../deps.ts";
-import { baseUrl } from "./globals.ts";
 import { logger } from "./logger.ts";
 import { Config } from "./types.ts";
 import { hasVersion, mkdir, readTextFile } from "./utils.ts";
@@ -52,7 +51,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     )
   ) {
     data = await res.text();
-    data = replaceImportText(data, baseUrl);
+    data = replaceImportText(data, config.baseUrl);
   } else {
     data = await res.arrayBuffer();
   }
