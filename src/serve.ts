@@ -1,5 +1,6 @@
 import { replaceImportText } from "../cli/utils.ts";
 import { ExtMapping, extname } from "../deps.ts";
+import { version } from "./globals.ts";
 import { logger } from "./logger.ts";
 import { Config } from "./types.ts";
 import { hasVersion, mkdir, readTextFile } from "./utils.ts";
@@ -100,7 +101,7 @@ export async function serveHttp(conn: Deno.Conn, config: Config) {
     const first = tempArr.shift()!;
     if (!first) {
       requestEvent.respondWith(
-        new Response("hello deno proxy"),
+        new Response(`deno proxy ${version}`),
       );
       continue;
     }

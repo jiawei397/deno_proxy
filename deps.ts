@@ -30,3 +30,5 @@ export type {
   LogAppender,
 } from "https://deno.land/x/date_file_log@v0.2.5/mod.ts";
 export type { LevelName } from "https://deno.land/x/date_file_log@v0.2.5/deps.ts";
+
+export { YamlLoader } from "https://deno.land/x/yaml_loader@v0.1.0/mod.ts";
