@@ -11,6 +11,7 @@ RUN chmod 755 /app
 ADD . .
 
 ENV DENO_DIR=deno-dir
+ENV BASE_URL=https://deno-mirror.uino.cn
 
 RUN deno cache --unstable mod.ts
 

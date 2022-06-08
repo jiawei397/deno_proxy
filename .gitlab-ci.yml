@@ -1,0 +1,68 @@
+stages:
+  - lint
+  - install_deps
+  - docker
+  - deploy
+
+# deno镜像模板
+.deno_image: &imageDef
+  image: denoland/deno:alpine-1.20.6
+
+lint:
+  stage: lint
+  <<: *imageDef
+  script:
+    - deno lint
+  cache: {}  
+
+# 安装依赖
+install_deps:
+  stage: install_deps
+  <<: *imageDef
+  variables:
+    DENO_DIR: deno-dir
+  only:
+    - master
+    - tags  
+  retry:
+    max: 2
+  script:
+    - deno cache --unstable mod.ts
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - deno-dir
+
+docker:
+  stage: docker
+  variables:
+    CI_DOCKERFILE: Dockerfile
+    CI_DOCKER_PROJECT: deno
+    CI_DOCKER_REPO: deno_proxy_server
+  only:
+    - tags
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    policy: pull
+    paths:
+      - ./deno-dir
+  script:
+    - docker_build
+
+deploy:
+  stage: deploy
+  variables:
+    CI_DOCKER_PROJECT: deno
+    CI_DOCKER_REPO: deno_proxy_server
+    CI_UPGRADE_HOSTNAME: deno-mirror.uino.cn
+    CI_UPGRADE_STRICT: minor
+  cache: {}
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+  only:
+    - tags
+  script:
+    - docker_deploy
