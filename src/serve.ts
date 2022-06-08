@@ -56,7 +56,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
   } else {
     data = await res.arrayBuffer();
   }
-  logger.debug(`${url} loaded from remote file ok`);
+  logger.info(`${url} loaded from remote file ok`);
   if (res.ok && (isHasVersion || config.isCacheNoVersion)) {
     const arr = filePath.split("/");
     arr.pop();
