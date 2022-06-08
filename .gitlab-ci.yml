@@ -12,7 +12,7 @@ lint:
   stage: lint
   <<: *imageDef
   script:
-    - deno lint
+    - deno lint src cli
   cache: {}  
 
 # 安装依赖
