@@ -1,8 +1,8 @@
-version: 0.0.2
+version: 0.0.3
 name: deno_proxy
 scripts:
   serve:
-    cmd: deno run mod.ts --debug --isCacheNoVersion
+    cmd: deno run mod.ts --isCacheNoVersion
     desc: run my main.ts file
     allow:
       - net
