@@ -32,3 +32,7 @@ scripts:
     cmd: deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v0.0.3/cli/mod.ts --baseUrl http://localhost --oldPath example/import_map.json --newPath example/import_map_proxy.json
     watch: false
     unstable: true
+  build:
+    cmd: deno bundle mod.ts mod.js
+    watch: false
+    unstable: false
