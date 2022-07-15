@@ -1,6 +1,6 @@
 import { blue, parse, red } from "../deps.ts";
 import { CliConfig } from "./type.ts";
-import { rewriteImportMap } from "./utils.ts";
+import { rewriteDeps, rewriteImportMap } from "./utils.ts";
 
 function parseConfig() {
   const config = parse(Deno.args) as unknown as CliConfig;
@@ -19,7 +19,11 @@ function parseConfig() {
 
 async function main() {
   const config = parseConfig();
-  await rewriteImportMap(config);
+  if (config.oldPath.endsWith('.json')) {
+    await rewriteImportMap(config);
+  } else {
+    await rewriteDeps(config);
+  }
   console.info(blue(`write to ${config.newPath} ok`));
 }
 

@@ -22,6 +22,12 @@ console.log(VERSION);
 It just changed your origin URL `https://deno.land` to
 `http://localhost/https/deno.land`.
 
+## use cli to generate one typescript or javascript file
+
+```powershell
+deno run --allow-read --allow-write ./cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/deps.ts --newPath example/deps_proxy.ts
+```
+
 ## use cli to generate import_map.json
 
 If your `import_map.json` like this:

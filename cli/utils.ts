@@ -40,3 +40,13 @@ export async function rewriteImportMap(options: CliConfig) {
   await Deno.writeTextFile(newPath, JSON.stringify(json, null, 2));
   return json;
 }
+
+
+export async function rewriteDeps(options: CliConfig) {
+  const { oldPath, newPath, baseUrl } = options;
+  const data = await Deno.readTextFile(oldPath);
+  const newData = replaceImportText(data, baseUrl);
+
+  await Deno.writeTextFile(newPath, newData);
+  return newData;
+}
