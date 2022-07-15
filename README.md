@@ -25,7 +25,7 @@ It just changed your origin URL `https://deno.land` to
 ## use cli to generate one typescript or javascript file
 
 ```powershell
-deno run --allow-read --allow-write ./cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/deps.ts --newPath example/deps_proxy.ts
+deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v1.2.0/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/deps.ts --newPath example/deps_proxy.ts
 ```
 
 ## use cli to generate import_map.json
