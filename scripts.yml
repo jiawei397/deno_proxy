@@ -29,6 +29,6 @@ scripts:
     env: 
       DENO_DIR: deno-dir
   map: 
-    cmd: deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v0.0.3/cli/mod.ts --baseUrl http://localhost --oldPath example/import_map.json --newPath example/import_map_proxy.json
+    cmd: deno run --allow-read --allow-write ./cli/mod.ts --baseUrl http://localhost:7878 --oldPath example/import_map.json --newPath example/import_map_proxy.json --ignoreOrigins /baidu.com/,/xunlei.cn/ 
     watch: false
     unstable: true

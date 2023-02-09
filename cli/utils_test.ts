@@ -26,7 +26,7 @@ Deno.test("transUrl", async (t) => {
     );
   });
 
-  await t.step("https", () => {
+  await t.step("no http", () => {
     const originUrl = "./src";
     assertEquals(
       transUrl(originUrl, "http://localhost:3000/"),
@@ -35,6 +35,51 @@ Deno.test("transUrl", async (t) => {
     assertEquals(
       transUrl(originUrl, "http://localhost:3000"),
       originUrl,
+    );
+  });
+
+  await t.step("esm.sh", () => {
+    const originUrl = "https://esm.sh/ejs@1.0.0/mod.ts";
+    assertEquals(
+      transUrl(originUrl, "http://localhost:3000/"),
+      originUrl,
+    );
+    assertEquals(
+      transUrl(originUrl, "http://localhost:3000"),
+      originUrl,
+    );
+
+    const originUrl2 = "https://esm.sh.test/ejs@1.0.0/mod.ts";
+    assertEquals(
+      transUrl(originUrl2, "http://localhost:3000/"),
+      `http://localhost:3000/https/esm.sh.test/ejs@1.0.0/mod.ts`,
+    );
+    assertEquals(
+      transUrl(originUrl2, "http://localhost:3000"),
+      `http://localhost:3000/https/esm.sh.test/ejs@1.0.0/mod.ts`,
+    );
+  });
+
+  await t.step("ignoreOrigins", () => {
+    const originUrl = "https://baidu.com/aa.js";
+    const ignoreOrigins = ["/baidu.com/"];
+    assertEquals(
+      transUrl(originUrl, "http://localhost:3000/", ignoreOrigins),
+      originUrl,
+    );
+    assertEquals(
+      transUrl(originUrl, "http://localhost:3000", ignoreOrigins),
+      originUrl,
+    );
+
+    const ignoreOrigins2 = ["www.baidu.com/"];
+    assertEquals(
+      transUrl(originUrl, "http://localhost:3000/", ignoreOrigins2),
+      `http://localhost:3000/https/baidu.com/aa.js`,
+    );
+    assertEquals(
+      transUrl(originUrl, "http://localhost:3000", ignoreOrigins2),
+      `http://localhost:3000/https/baidu.com/aa.js`,
     );
   });
 });

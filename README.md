@@ -56,6 +56,10 @@ The `import_map_proxy.json` should be this:
 }
 ```
 
+Current default will not translate the import origin in `/cdn.skypack.dev/` and
+`/esm.sh/`. If you have to ignore your urls, you can add `ignoreOrigins` such as
+`--ignoreOrigins /baidu.com/,/xunlei.cn/`.
+
 Then you can run your code:
 
 ```

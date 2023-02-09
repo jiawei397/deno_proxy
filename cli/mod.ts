@@ -14,12 +14,17 @@ function parseConfig() {
   if (!config.newPath) {
     config.newPath = config.oldPath;
   }
+  if (config.ignoreOrigins) {
+    if (typeof config.ignoreOrigins === "string") {
+      config.ignoreOrigins = config.ignoreOrigins.split(",");
+    }
+  }
   return config;
 }
 
 async function main() {
   const config = parseConfig();
-  if (config.oldPath.endsWith('.json')) {
+  if (config.oldPath.endsWith(".json")) {
     await rewriteImportMap(config);
   } else {
     await rewriteDeps(config);

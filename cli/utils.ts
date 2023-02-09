@@ -1,7 +1,19 @@
 import { CliConfig } from "./type.ts";
 
-export function transUrl(originUrl: string, baseUrl: string) {
+const ignoreUrls = ["/cdn.skypack.dev/", "/esm.sh/"];
+export function transUrl(
+  originUrl: string,
+  baseUrl: string,
+  ignoreOrigins?: string[],
+) {
   if (!/^https?/.test(originUrl)) {
+    return originUrl;
+  }
+  if (
+    ignoreUrls.concat(ignoreOrigins || []).some((url) =>
+      originUrl.includes(url)
+    )
+  ) {
     return originUrl;
   }
   const last = originUrl.replace(/:\/\//, "/");
@@ -11,7 +23,7 @@ export function transUrl(originUrl: string, baseUrl: string) {
 export function replaceImportText(originText: string, baseUrl: string) {
   const reg = /[import|export]+\s.*["']+(http[s]?:\/\/[\w\.-]+)\//g;
   return originText.replaceAll(reg, (match, str) => {
-    if (str.includes("cdn.skypack.dev")) {
+    if (ignoreUrls.some((url) => str.includes(url))) {
       return match;
     }
     const transed = transUrl(str, baseUrl);
@@ -29,18 +41,17 @@ export function replaceImportText(originText: string, baseUrl: string) {
     }),
    */
 export async function rewriteImportMap(options: CliConfig) {
-  const { oldPath, newPath, baseUrl } = options;
+  const { oldPath, newPath, baseUrl, ignoreOrigins } = options;
   const data = await Deno.readTextFile(oldPath);
   const json = JSON.parse(data);
   const map = json.imports;
   Object.keys(map).forEach((key) => {
-    map[key] = transUrl(map[key], baseUrl);
+    map[key] = transUrl(map[key], baseUrl, ignoreOrigins as string[]);
   });
 
   await Deno.writeTextFile(newPath, JSON.stringify(json, null, 2));
   return json;
 }
-
 
 export async function rewriteDeps(options: CliConfig) {
   const { oldPath, newPath, baseUrl } = options;
