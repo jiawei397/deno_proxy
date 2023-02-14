@@ -1,6 +1,11 @@
 import { CliConfig } from "./type.ts";
 
-const ignoreUrls = ["/cdn.skypack.dev/", "/esm.sh/"];
+const ignoreUrls = [
+  "//cdn.skypack.dev/",
+  "//esm.sh/",
+  "//127.0.0.1",
+  "//localhost",
+];
 export function transUrl(
   originUrl: string,
   baseUrl: string,
