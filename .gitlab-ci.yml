@@ -1,6 +1,5 @@
 stages:
   - lint
-  - install_deps
   - docker
   - deploy
 
@@ -13,25 +12,6 @@ lint:
   <<: *imageDef
   script:
     - deno lint src cli
-  cache: {}  
-
-# 安装依赖
-install_deps:
-  stage: install_deps
-  <<: *imageDef
-  variables:
-    DENO_DIR: deno-dir
-  only:
-    - master
-    - tags  
-  retry:
-    max: 2
-  script:
-    - deno cache --unstable mod.ts
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - deno-dir
 
 docker:
   stage: docker
@@ -41,11 +21,6 @@ docker:
     CI_DOCKER_REPO: deno_proxy_server
   only:
     - tags
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    policy: pull
-    paths:
-      - ./deno-dir
   script:
     - docker_build
 
