@@ -12,7 +12,7 @@ USER deno
 
 COPY . .
 
-# ENV DENO_DIR=deno-dir
+ENV DENO_DIR=deno-dir
 ENV BASE_URL=https://deno-mirror.uino.cn
 ENV CACHE_DIR_DENO=cache/3
 
