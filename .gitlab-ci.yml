@@ -3,9 +3,14 @@ stages:
   - docker
   - deploy
 
+include:
+  - project: 'spacex/ci-templates'
+    file: '.base.gitlab-ci.yml'
+
+
 # deno镜像模板
 .deno_image: &imageDef
-  image: dk.uino.cn/library/denoland-deno:alpine-1.30.3
+  image: dk.uino.cn/library/denoland-deno:alpine-1.31.3
 
 lint:
   stage: lint
@@ -15,6 +20,7 @@ lint:
 
 docker:
   stage: docker
+  extends: .docker
   variables:
     CI_DOCKERFILE: Dockerfile
     CI_DOCKER_PROJECT: deno
