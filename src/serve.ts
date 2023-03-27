@@ -29,7 +29,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
   if (isHasVersion || config.isCacheNoVersion) {
     const text = await readTextFile(filePath);
     if (text !== null) {
-      logger.debug(`${url} loaded from local file`);
+      logger.info(`${url} loaded from local file`);
       const contentType = isDeno
         ? null
         : await readTextFile(filePath + "_type");
@@ -66,12 +66,14 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     } else {
       await Deno.writeFile(filePath, new Uint8Array(data));
     }
+    logger.info(`${url} write ok: ${filePath}`);
     if (!isDeno && contentType && contentType !== "text/plain") {
       if (ExtMapping[ext]) {
         await Deno.writeTextFile(
           filePath + "_type",
           contentType,
         );
+        logger.info(`${url} write type ok: ${filePath}_type`);
       }
     }
   }
