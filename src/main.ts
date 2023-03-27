@@ -6,6 +6,15 @@ export async function main() {
   console.log(
     `HTTP webserver running.  Access it at:  http://localhost:${globals.port}/`,
   );
+  addEventListener("unhandledrejection", (evt) => {
+    evt.preventDefault();
+    console.error(`unhandledrejection`, evt.reason);
+  });
+
+  addEventListener("error", (evt) => {
+    evt.preventDefault(); // 这句很重要
+    console.error(`global error`, evt.error);
+  });
   for await (const conn of server) {
     serveHttp(conn, globals);
   }
