@@ -5,7 +5,7 @@ stages:
 
 # deno镜像模板
 .deno_image: &imageDef
-  image: dk.uino.cn/library/denoland-deno:alpine-1.30.1
+  image: dk.uino.cn/library/denoland-deno:alpine-1.30.3
 
 lint:
   stage: lint

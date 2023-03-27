@@ -1,4 +1,4 @@
-FROM dk.uino.cn/library/denoland-deno:alpine-1.30.1
+FROM dk.uino.cn/library/denoland-deno:alpine-1.30.3
 
 EXPOSE 80
 
