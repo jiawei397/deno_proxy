@@ -10,7 +10,7 @@ RUN chmod 755 /app
 
 USER deno
 
-ADD . .
+COPY . .
 
 # ENV DENO_DIR=deno-dir
 ENV BASE_URL=https://deno-mirror.uino.cn
