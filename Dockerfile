@@ -14,6 +14,7 @@ ADD . .
 
 ENV DENO_DIR=deno-dir
 ENV BASE_URL=https://deno-mirror.uino.cn
+ENV CACHE_DIR_DENO=cache/3
 
 RUN deno cache --unstable mod.ts
 

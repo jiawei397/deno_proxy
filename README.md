@@ -7,7 +7,7 @@ current deno land occasionally fails to download.
 
 ## start server
 
-```
+```bash
 deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deno_proxy@v1.3.2/mod.ts
 ```
 
@@ -42,7 +42,7 @@ If your `import_map.json` like this:
 
 Then generate your proxy `import_map.json` by the above:
 
-```
+```bash
 deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v1.3.2/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/import_map.json --newPath example/import_map_proxy.json
 ```
 

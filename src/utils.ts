@@ -1,3 +1,5 @@
+import { YamlLoader } from "../deps.ts";
+
 export async function readTextFile(path: string) {
   try {
     const text = await Deno.readTextFile(path);
@@ -17,4 +19,16 @@ export async function mkdir(path: string) {
 
 export function hasVersion(path: string) {
   return /@v?\d{1,3}\.\d{1,3}\.\d{1,3}/.test(path);
+}
+
+export async function readYaml<T>(
+  path: string,
+): Promise<T> {
+  const yamlLoader = new YamlLoader();
+  let allPath = path;
+  if (!/\.(yaml|yml)$/.test(path)) {
+    allPath += ".yaml";
+  }
+  const data = await yamlLoader.parseFile(allPath);
+  return data as T;
 }

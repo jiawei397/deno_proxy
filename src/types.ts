@@ -10,3 +10,7 @@ export interface Config {
   logFilePath?: string;
   logAppenders?: LogAppender | LogAppender[];
 }
+
+export type Scripts = {
+  version: string;
+};

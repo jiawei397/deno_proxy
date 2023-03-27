@@ -1,5 +1,6 @@
 import { parse } from "../deps.ts";
-import { Config } from "./types.ts";
+import { Config, Scripts } from "./types.ts";
+import { readYaml } from "./utils.ts";
 
 function parseConfig() {
   const config = parse(Deno.args) as unknown as Config;
@@ -26,3 +27,7 @@ function parseConfig() {
 const config = parseConfig();
 
 export default config;
+
+const scriptsConfig = await readYaml<Scripts>("scripts.yml");
+
+export const version = scriptsConfig.version;
