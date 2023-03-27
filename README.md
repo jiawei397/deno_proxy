@@ -8,7 +8,7 @@ current deno land occasionally fails to download.
 ## start server
 
 ```bash
-deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deno_proxy@v1.3.8/mod.ts
+deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deno_proxy@v1.3.9/mod.ts
 ```
 
 Then your server will be started on `http://localhost`. You can use like this:
@@ -25,7 +25,7 @@ It just changed your origin URL `https://deno.land` to
 ## use cli to generate one typescript or javascript file
 
 ```powershell
-deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v1.3.8/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/deps.ts --newPath example/deps_proxy.ts
+deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v1.3.9/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/deps.ts --newPath example/deps_proxy.ts
 ```
 
 ## use cli to generate import_map.json
@@ -43,7 +43,7 @@ If your `import_map.json` like this:
 Then generate your proxy `import_map.json` by the above:
 
 ```bash
-deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v1.3.8/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/import_map.json --newPath example/import_map_proxy.json
+deno run --allow-read --allow-write https://deno.land/x/deno_proxy@v1.3.9/cli/mod.ts --baseUrl http://localhost:8000 --oldPath example/import_map.json --newPath example/import_map_proxy.json
 ```
 
 The `import_map_proxy.json` should be this:
