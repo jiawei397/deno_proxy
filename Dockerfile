@@ -8,7 +8,7 @@ WORKDIR /app
 RUN chown -R deno /app
 RUN chmod 755 /app
 
-USER deno
+# USER deno
 
 ADD . .
 
