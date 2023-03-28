@@ -18,7 +18,7 @@ export async function mkdir(path: string) {
 }
 
 export function hasVersion(path: string) {
-  return /@v?\d{1,3}\.\d{1,3}\.\d{1,3}/.test(path);
+  return /@v?\d+/.test(path);
 }
 
 export async function readYaml<T>(
