@@ -16,6 +16,6 @@ ENV DENO_DIR=deno-dir
 RUN deno cache --unstable mod.ts
 
 ENV BASE_URL=https://deno-mirror.uino.cn
-ENV CACHE_DIR_DENO=cache/3
+ENV CACHE_DIR_DENO=cache/4
 
 CMD deno run --allow-net --allow-env --allow-write --allow-read --unstable mod.ts
