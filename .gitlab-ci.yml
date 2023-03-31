@@ -36,7 +36,6 @@ deploy:
     CI_DOCKER_PROJECT: deno
     CI_DOCKER_REPO: deno_proxy_server
     CI_UPGRADE_HOSTNAME: deno-mirror.uino.cn
-    CI_UPGRADE_STRICT: minor
   cache: {}
   retry:
     max: 2
