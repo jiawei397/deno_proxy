@@ -1,6 +1,6 @@
 {
   "name": "deno_proxy",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "tasks": {
     "serve": "deno run  -A mod.ts --isCacheNoVersion --logLevel DEBUG",
     "dev": "deno run -A example/mod.ts",
