@@ -28,7 +28,7 @@ export function replaceImportText(
 ): string {
   // const reg = /[import|export]+\s.*["']+(http[s]?:\/\/[\w\.-]+)\//g;
   const reg =
-    /(import|export)+\s[\s\S\w$*]*?["']+(((https?:\/\/)|\/)[\w\.-]+)\//g;
+    /(import|export)+[\s\S\w$*]*?["']+(((https?:\/\/)|\/)[\w\.-]+)\//g;
   return originText.replaceAll(reg, (match, _$0, str) => {
     const transed = transUrl(str, baseUrl, [], currentUrl);
     return match.replace(str, transed);

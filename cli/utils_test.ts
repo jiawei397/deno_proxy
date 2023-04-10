@@ -190,6 +190,21 @@ Deno.test("replaceImportText", async (t) => {
     );
   });
 
+  await t.step("紧凑格式", () => {
+    const originText =
+      `import{options as e,Fragment as T}from"/stable/preact@10.11.0/deno/preact.mjs";`;
+    const result =
+      `import{options as e,Fragment as T}from"http://localhost/https/esm.sh/stable/preact@10.11.0/deno/preact.mjs";`;
+    assertEquals(
+      replaceImportText(
+        originText,
+        "http://localhost/",
+        "https://esm.sh/stable/",
+      ),
+      result,
+    );
+  });
+
   await t.step(
     "Deno test case 1: should replace one import URL with a new URL",
     () => {
