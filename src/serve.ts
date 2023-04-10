@@ -52,7 +52,7 @@ async function fetchFromRemote(url: string, req: Request, config: Config) {
     )
   ) {
     data = await res.text();
-    data = replaceImportText(data, config.baseUrl);
+    data = replaceImportText(data, config.baseUrl, url);
   } else {
     data = await res.arrayBuffer();
   }

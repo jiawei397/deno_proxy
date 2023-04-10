@@ -1,37 +1,36 @@
 import { CliConfig } from "./type.ts";
 
-const ignoreUrls = [
-  "//cdn.skypack.dev/",
-  "//esm.sh/",
-  "//127.0.0.1",
-  "//localhost",
-];
 export function transUrl(
   originUrl: string,
   baseUrl: string,
-  ignoreOrigins?: string[],
-) {
+  ignoreOrigins: string[] = [],
+  currentUrl?: string,
+): string {
   if (!/^https?/.test(originUrl)) {
-    return originUrl;
+    if (originUrl.startsWith("/") && currentUrl) {
+      const pre = new URL(currentUrl).origin;
+      return transUrl(pre + originUrl, baseUrl, ignoreOrigins, currentUrl);
+    } else {
+      return originUrl;
+    }
   }
-  if (
-    ignoreUrls.concat(ignoreOrigins || []).some((url) =>
-      originUrl.includes(url)
-    )
-  ) {
+  if (ignoreOrigins.some((url) => originUrl.includes(url))) {
     return originUrl;
   }
   const last = originUrl.replace(/:\/\//, "/");
   return `${baseUrl.endsWith("/") ? baseUrl : baseUrl + "/"}${last}`;
 }
 
-export function replaceImportText(originText: string, baseUrl: string) {
-  const reg = /[import|export]+\s.*["']+(http[s]?:\/\/[\w\.-]+)\//g;
-  return originText.replaceAll(reg, (match, str) => {
-    if (ignoreUrls.some((url) => str.includes(url))) {
-      return match;
-    }
-    const transed = transUrl(str, baseUrl);
+export function replaceImportText(
+  originText: string,
+  baseUrl: string,
+  currentUrl?: string,
+): string {
+  // const reg = /[import|export]+\s.*["']+(http[s]?:\/\/[\w\.-]+)\//g;
+  const reg =
+    /(import|export)+\s[\s\S\w$*]*?["']+(((https?:\/\/)|\/)[\w\.-]+)\//g;
+  return originText.replaceAll(reg, (match, $0, str) => {
+    const transed = transUrl(str, baseUrl, [], currentUrl);
     return match.replace(str, transed);
   });
 }

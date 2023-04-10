@@ -9,7 +9,7 @@ function parseConfig() {
   }
   if (!config.baseUrl) {
     config.baseUrl = Deno.env.get("BASE_URL") ||
-      `http://localhost/${config.port}`;
+      `http://localhost:${config.port}`;
   }
   if (!config.cacheBrowserDir) {
     config.cacheBrowserDir = Deno.env.get("CACHE_DIR_BROWSER") || "cache/1";

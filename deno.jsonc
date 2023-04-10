@@ -1,0 +1,12 @@
+{
+  "name": "deno_proxy",
+  "version": "1.3.13",
+  "tasks": {
+    "serve": "deno run  -A mod.ts --isCacheNoVersion --logLevel DEBUG",
+    "dev": "deno run -A example/mod.ts",
+    "map": "deno run --allow-read --allow-write ./cli/mod.ts --baseUrl http://localhost:80 --oldPath example/import_map.json --newPath example/import_map_proxy.json --ignoreOrigins /baidu.com/,/xunlei.cn/ ",
+    "cache": "deno cache --importmap example/import_map_proxy.json  example/mod.ts",
+    "test": "deno test",
+    "build": "deno bundle --unstable mod.ts mod.js"
+  }
+}
